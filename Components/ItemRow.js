@@ -20,19 +20,21 @@ export default class ItemRow extends React.Component {
     return (
         <View style={containerStyle}>            
             <Text style={textStyle}>{this.props.items.indexOf(this.props.item) + 1} . {this.props.item.key}</Text>
-            <View style={styles.buttonViewX}>
-               <View style={{paddingBottom: 22, top: -5, position: 'relative', height: 25}}>
+            <View style={styles.buttonView}>
+               <View style={styles.buttonView}>
                <Button        
                     title="X"    
                     onPress = {() => this.props.onRemove(this.props.item)}      
                 /> 
                 </View>   
             </View> 
-            <View style={styles.buttonViewV}>
-                <Button        
-                    title="V"    
-                    onPress = {() => this.boughtItems()}      
-                />    
+            <View style={styles.buttonView}>
+                <View style={styles.buttonView}>
+                    <Button        
+                        title="V"    
+                        onPress = {() => this.boughtItems()}      
+                    /> 
+                </View>   
             </View> 
         </View>
     );
@@ -53,17 +55,20 @@ const styles = StyleSheet.create({
         backgroundColor:"#96D8AD",
         padding: 10,
     },
-    buttonViewX: {
-        flex: 1,
-        paddingRight: 1,
-        marginBottom: 50,
-        height: 25,
-        position: 'relative',
+    // buttonView: {
+    //     flex: 1,
+    //     paddingRight: 1,
+    //     marginBottom: 50,
+    //     height: 25,
+    //     position: 'relative',
 
-    }, 
-    buttonViewV: {
-        flex: 1,
-        paddingRight: 1,
+    // }, 
+    buttonView: {
+        paddingBottom: 22, 
+        top: -5, 
+        position: 'relative',
+        height: 25,
+        padding: 1
     },  
   text: {
       color: 'grey',

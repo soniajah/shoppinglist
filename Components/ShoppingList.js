@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View,TextInput, Button, FlatList} from 'react-native';
+import { StyleSheet, Text, View,TextInput, Button, FlatList, AsyncStorage} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ItemRow from './ItemRow';
 
@@ -9,19 +9,27 @@ export default class ShoppingList extends React.Component {
     this.state = {
       isShowingText: true,
       itemName: '',
-      items: [{key : 'item1'}], 
-    };    
-  }
-
+      items: [],//[{key : 'item1', bought: false}], 
+    }; 
+    AsyncStorage.getItem('listItems').then((value) => 
+    {
+      if(value != null){
+        this.setState({ items: JSON.parse(value)})
+      }
+  
+    })   
+  }       
+    
   handlePress(){
     if(this.state.itemName != ''){
       this.addItemToList();
-    }
-    
+    }   
   } 
 
   addItemToList(){
-    this.setState({items: [...this.state.items, {key: this.state.itemName, bought: false}], itemName: ''}) 
+    var newList = [...this.state.items, {key: this.state.itemName, bought: false}]
+    this.setState({items: newList, itemName: ''}) 
+    AsyncStorage.setItem('listItems', JSON.stringify(newList))
   }
 
   removeItemFromList(item){
@@ -29,7 +37,7 @@ export default class ShoppingList extends React.Component {
     let index = items.indexOf(item);
     items.splice(index, 1);
     this.setState({ items : items });
-    // return this.state.items;s
+    AsyncStorage.setItem('listItems', JSON.stringify(items))
   }
 
   itemsBought(item){    
@@ -114,6 +122,5 @@ const styles = StyleSheet.create({
   },
   listItems: {
     paddingTop: 20,    
-  }
-  
+  }  
 });
